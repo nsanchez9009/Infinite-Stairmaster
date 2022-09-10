@@ -36,8 +36,12 @@ body {
 
 #player {
     padding: 10px;
-    grid-column: 5 / 6;
-    grid-row: 9 / 10;
+
+    grid-column-start: 5;
+    grid-column-end: 6;
+    
+    grid-row-start: 9;
+    grid-row-end: 10;
 }
 
 #one {
