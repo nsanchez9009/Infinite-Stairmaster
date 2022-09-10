@@ -19,6 +19,8 @@ window.addEventListener("keydown", (e) => {
     else if (e.code === "ControlLeft") {
         rotate(player, styles);
     }
+
+    //check if grid cell is empty
 });
 
 function moveRight(player, styles) {
@@ -64,7 +66,6 @@ function rotate(player, styles) {
         facing = 1;
         moveRight(player, styles);
     }
-    console.log(facing);
 }
 
 function moveUp(player, styles) {
@@ -79,4 +80,8 @@ function moveUp(player, styles) {
 
     player.style.gridRowStart = rowStart;
     player.style.gridRowEnd = rowEnd;
+}
+
+function isEmpty(start, end) {
+
 }
