@@ -31,8 +31,24 @@ body {
     background-color: white;
     height: 10px;
     width: 80px;
-
-   
 }
+
+
+#player {
+    padding: 10px;
+
+    grid-column-start: 5;
+    grid-column-end: 6;
+    
+    grid-row-start: 9;
+    grid-row-end: 10;
+
+    transition: transform .1s;
+}
+
+.flipped {
+    transform: rotateY(180deg);
+}
+
 
 
