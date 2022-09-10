@@ -4,24 +4,24 @@ const player = document.querySelector("#player");
 let facing = 1;
 
 window.addEventListener("keydown", (e) => {
-    console.log(e.code);
+    const styles = window.getComputedStyle(player);
+
     if (e.code === "Space") {
+        console.log(facing);
         if (facing) {
-            moveRight(player);
+            moveRight(player, styles);
         }
         else {
-            moveLeft(player);
+            moveLeft(player, styles);
         }
     }
 
     else if (e.code === "ControlLeft") {
-        rotate(player, facing);
+        rotate(player, styles);
     }
 });
 
-function moveRight(player) {
-
-    const styles = window.getComputedStyle(player);
+function moveRight(player, styles) {
     
     let columnStart = styles.gridColumnStart;
     columnStart = Number(columnStart);
@@ -37,13 +37,34 @@ function moveRight(player) {
     moveUp(player, styles);
 }
 
-function moveLeft(player) {
+function moveLeft(player, styles) {
+    
+    let columnStart = styles.gridColumnStart;
+    columnStart = Number(columnStart);
+    columnStart -= 1;
+    
+    let columnEnd = styles.gridColumnEnd;
+    columnEnd = Number(columnEnd);
+    columnEnd -= 1;
 
+    player.style.gridColumnStart = columnStart;
+    player.style.gridColumnEnd = columnEnd;
+
+    moveUp(player, styles);
 }
 
-function rotate(player, facing) {
-    
-
+function rotate(player, styles) {
+    if (facing) {
+        player.classList.add("flipped");
+        facing = 0;
+        moveLeft(player, styles);
+    }
+    else {
+        player.classList.remove("flipped");
+        facing = 1;
+        moveRight(player, styles);
+    }
+    console.log(facing);
 }
 
 function moveUp(player, styles) {
