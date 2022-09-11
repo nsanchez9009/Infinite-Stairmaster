@@ -52,6 +52,8 @@ window.addEventListener("keydown", (e) => {
         rotate(player, styles);
     }
 
+    
+
     //check if grid cell is empty
 });
 
