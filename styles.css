@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+
 *::after *::before {
     box-sizing: border-box;
 }
@@ -6,18 +8,32 @@ body {
     background-color: rgb(59, 59, 59);
 }
 
+.text {
+    font-size: 30px;
+    color: white;
+    font-family: 'DotGothic16', sans-serif;
+    letter-spacing: 2px;
+}
+
 #mainContainer {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    gap: 50px;
 }
 
 #grid {
     display: grid;
     
-    border: 2px solid red;
-    height: 100vh;
-    width: 70vw;
+    border: 10px solid rgb(0, 0, 0);
+    background-color: rgb(42, 93, 134);
+
+    padding-bottom: 5px;
+    margin-top: 20px;
+    height: 700px;
+    width: 800px;
 
     grid-template-columns: repeat(9, 1fr);
     grid-template-rows: repeat(9, 1fr);
@@ -26,7 +42,7 @@ body {
 }
 
 .platform { 
-    background-color: white;
+    background-color: rgb(126, 248, 147);
     height: 10px;
     width: 80px;
 }
@@ -45,4 +61,11 @@ body {
 
 .flipped {
     transform: rotateY(180deg);
+}
+
+#score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
