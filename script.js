@@ -1,13 +1,15 @@
+const grid = document.querySelector("#grid");
+
 window.onload = function() {
     let rowStart = 7;
     let columnStart = 6;
     
-    for (let i = 8 ; i > 0 ; i--) {
+    for (let i = 7 ; i > 0 ; i--) {
 
         const div = document.createElement("div");
         div.classList.add("platform");
 
-        document.querySelector("#grid").append(div);
+        grid.append(div);
 
         let rand = Math.floor(Math.random() * 2) == 0
 
@@ -38,7 +40,6 @@ window.addEventListener("keydown", (e) => {
     const styles = window.getComputedStyle(player);
 
     if (e.code === "Space") {
-        console.log(facing);
         if (facing) {
             moveRight(player, styles);
         }
@@ -67,7 +68,7 @@ function moveRight(player, styles) {
     player.style.gridColumnStart = columnStart;
     player.style.gridColumnEnd = columnEnd;
 
-    moveUp(player, styles);
+    moveUp();
 }
 
 function moveLeft(player, styles) {
@@ -83,7 +84,7 @@ function moveLeft(player, styles) {
     player.style.gridColumnStart = columnStart;
     player.style.gridColumnEnd = columnEnd;
 
-    moveUp(player, styles);
+    moveUp();
 }
 
 function rotate(player, styles) {
@@ -99,18 +100,27 @@ function rotate(player, styles) {
     }
 }
 
-function moveUp(player, styles) {
+function moveUp() {
+    const platforms = document.querySelectorAll(".platform");
 
-    let rowStart = styles.gridRowStart;
-    rowStart = Number(rowStart);
-    rowStart -= 1;
+    platforms.forEach(div => {
+        let rowStart = div.style.gridRowStart;
+        rowStart = Number(rowStart);
+        console.log(rowStart)
+        rowStart += 1;
 
-    let rowEnd = styles.gridRowEnd;
-    rowEnd = Number(rowEnd);
-    rowEnd -= 1;
+        let rowEnd = div.style.gridRowEnd;
+        rowEnd = Number(rowEnd);
+        rowEnd += 1;
 
-    player.style.gridRowStart = rowStart;
-    player.style.gridRowEnd = rowEnd;
+        if (rowStart >= 10) {
+            rowStart = 1;
+            rowEnd = 2;
+        }
+
+        div.style.gridRowStart = rowStart;
+        div.style.gridRowEnd = rowEnd;
+    });
 }
 
 function isEmpty(start, end) {
