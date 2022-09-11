@@ -191,6 +191,7 @@ function rotate(player, styles) {
     }
 }
 
+
 function moveUp() {
     if(flag == 1) return;
     const platforms = document.querySelectorAll(".platform");
@@ -340,5 +341,5 @@ function resetGame(){
     flag = 0;
     score = 0;
     facing = 1;
-
+    player.classList.remove("flipped")
 }
