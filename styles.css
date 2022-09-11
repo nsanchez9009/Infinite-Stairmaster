@@ -1,41 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+
 *::after *::before {
     box-sizing: border-box;
 }
 
 body {
-    background-color: rgb(59, 59, 59);
+    background-color: rgb(44, 112, 59);
+}
+
+.text {
+    font-size: 30px;
+    color: white;
+    font-family: 'DotGothic16', sans-serif;
+    letter-spacing: 2px;
 }
 
 #mainContainer {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    gap: 20px;
 }
 
 #grid {
     display: grid;
-    border: 2px solid red;
-    height: 100vh;
+    
+    border: 10px solid rgb(22, 22, 22);
+    background-image: url(./water.gif);
 
-    width: 70vw;
-
+    padding-bottom: 5px;
+    margin-top: 20px;
+    height: 35em;
+    width: 50em;
 
     grid-template-columns: repeat(9, 1fr);
     grid-template-rows: repeat(9, 1fr);
-
     justify-items: center;
     align-items: end;
 }
 
 .platform { 
-    background-color: white;
-    height: 10px;
-    width: 80px;
+    background-image: url(./lilypad.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    filter: drop-shadow(0px 0px 20px rgb(18, 0, 179));
+
+    height: 60px;
+    width: 60px;
 }
 
-
 #player {
+    filter: drop-shadow(0px 0px 15px rgb(1, 6, 71));
+
     padding: 10px;
+    z-index: 1;
 
     grid-column-start: 5;
     grid-column-end: 6;
@@ -50,5 +72,33 @@ body {
     transform: rotateY(180deg);
 }
 
+.scores {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#highscoreContainer {
+    display: flex;
+}
 
 
+.resetbtn{
+
+    font-family: 'DotGothic16', sans-serif;
+    font-size: 1.1em;
+    background: black;
+    letter-spacing: .2em;
+    color: white;
+    border: 3px solid black;
+    padding: 1em 2em;
+    border-radius: 2em;
+    
+}
+
+.resetbtn:hover{
+    cursor: pointer;
+    background: white;
+    color: black;
+}

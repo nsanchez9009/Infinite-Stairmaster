@@ -3,8 +3,16 @@ const grid = document.querySelector("#grid");
 let l1;
 let prev = 1;
 let flag = 0;
+let highscore = document.querySelector("#highScore");
+let hs;
+window.onload = startGame;
+function startGame() {
 
-window.onload = function() {
+    if(localStorage.getItem('highS')){
+        hs = parseInt(localStorage.getItem('highS'));
+        document.querySelector("#highScore").textContent = hs;
+    }
+    else hs = 0;
     let rowStart = 7;
     let columnStart = 6;
 
@@ -15,7 +23,6 @@ window.onload = function() {
 
         const div = document.createElement("div");
         div.classList.add("platform");
-
         grid.append(div);
 
         let rand = Math.floor(Math.random() * 2);
@@ -23,8 +30,8 @@ window.onload = function() {
         if((rand === 0 && columnStart < 9 ) || columnStart === 1) {
             columnStart++;
             l1.add(1, columnStart);
-
         }
+
         else {
             columnStart--;
             l1.add(0, columnStart);
@@ -37,36 +44,107 @@ window.onload = function() {
 
         rowStart--;
     }
-
 };
 
 const player = document.querySelector("#player");
 
+
 //0 is left, 1 is right
 let facing = 1;
+let score = 0;
+
+
+let second = 1;
+let millisecond = 0;
+
+let cron;
+
+
+function start() {
+    pause();
+    cron = setInterval(() => { timer(); }, 10);
+  }
+  
+  function pause() {
+    clearInterval(cron);
+}
+
+function reset() {
+
+    second = 1;
+    millisecond = 0;
+    document.getElementById('second').innerText = '00';
+    document.getElementById('millisecond').innerText = '000';
+}
+
+
+function timer() {
+    if(flag == 1){
+        reset();
+        pause();
+    }
+    if ((millisecond -= 10) <= 0) {
+      millisecond = 999;
+      second--;
+    }
+    else if(second < 0){
+         reset();
+         flag = 1;
+         document.getElementById('second').innerText = 0;
+         document.getElementById('millisecond').innerText = 0;
+         alert("out of time");
+    }
+    document.getElementById('second').innerText = returnData(second);
+    document.getElementById('millisecond').innerText = returnData(millisecond);
+  }
+  
+  function returnData(input) {
+    return input > 10 ? input : `0${input}`
+  }
+
+  const scoreText = document.querySelector("#score");
+  
 
 window.addEventListener("keydown", (e) => {
+    if(flag == 1) return;
     const styles = window.getComputedStyle(player);
-
-    if (e.code === "Space" && flag === 0) {
+    if (e.code === "Space" ) {
         if (facing) {
             moveRight(player, styles);
         }
         else {
             moveLeft(player, styles);
         }
+        reset();
+        start();
     }
 
-    else if (e.code === "ControlLeft" && flag === 0) {
+    else if (e.code === "ControlLeft") {
         rotate(player, styles);
+        reset();
+        start();
     }
 
     if(facing != l1.head.element) {
+        if(score > hs){
+            console.log("asd");
+            hs = score;
+            document.querySelector("#highScore").textContent = hs;
+            
+            localStorage.setItem('highS', hs);
+        }
+        alert("you lost");
         flag = 1;
     }
-
+    else if(flag == 0){
+        score++;
+        scoreText.textContent = score;
+    }
     l1.remove();
 });
+
+let seconds;
+
 
 function moveRight(player, styles) {
     
@@ -130,16 +208,19 @@ function moveUp() {
             rowEnd = 2;
 
             let colStart = l1.findLastCol();
-            let rand = Math.floor(Math.random() * 2);
+            const rand = Math.floor(Math.random() * 2);
+
             if((rand == 0 && colStart < 9 ) || colStart == 1) {
                 colStart++;
                 l1.add(1, colStart);
     
             }
+
             else {
                 colStart--;
                 l1.add(0, colStart);
             }
+
             div.style.gridColumnStart = colStart;
             div.style.gridColumnEnd = colStart + 1;
         }
@@ -167,12 +248,14 @@ class LinkedList {
     }
 
     add(element, column){
-        let node = new Node(element, column);
+        const node = new Node(element, column);
 
         let current;
  
-        if (this.head == null)
+        if (this.head == null){
             this.head = node;
+        }
+
         else {
             current = this.head;
             while (current.next) {
@@ -180,6 +263,7 @@ class LinkedList {
             }
             current.next = node;
         }
+
         this.size++;
     }
 
@@ -198,13 +282,62 @@ class LinkedList {
         this.head = this.head.next;
     }
 
-
     findLastCol(){
         let cur = this.head;
+
         while(cur.next != null){
             cur = cur.next;
         }
+
         return cur.column;
     }
+
+    deleteAll(){
+        while(this.head){
+            this.head = this.head.next;
+        }
+    }
+}
+
+
+function resetGame(){
+    l1.deleteAll();
+    const platforms = document.querySelectorAll(".platform");
+
+    platforms.forEach(div => {
+        div.remove();
+    });
+    
+    startGame();
+    l1.printList();
+
+    const div = document.createElement("div");
+    div.classList.add("platform");
+    grid.append(div);
+    div.style.gridColumnStart = 6;
+    div.style.gridColumnEnd = 7;
+    div.style.gridRowStart = 8;
+    div.style.gridRowEnd = 9;
+
+    const div2 = document.createElement("div");
+    div2.classList.add("platform");
+    grid.append(div2);
+    div2.style.gridColumnStart = 5;
+    div2.style.gridColumnEnd = 6;
+    div2.style.gridRowStart = 9;
+    div2.style.gridRowEnd = 10;
+
+
+    player.style.gridColumnStart = 5;
+    player.style.gridColumnEnd = 6;
+    player.style.gridRowStart = 9;
+    player.style.gridRowEnd = 10;
+
+    pause();
+    reset();
+
+    flag = 0;
+    score = 0;
+    facing = 1;
 
 }

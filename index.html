@@ -14,8 +14,22 @@
     <div id="mainContainer">
         <div id="grid">
             <img src="./frog.png" alt="Mr. Frog" id="player">
-            <div class="platform" style="grid-column-start: 6; grid-column-end: 7; grid-row-start: 8; grid-row-end: 9;" ></div>
             <div class="platform" style="grid-column-start: 5; grid-column-end: 6; grid-row-start: 9; grid-row-end: 10;"></div>
+            <div class="platform" style="grid-column-start: 6; grid-column-end: 7; grid-row-start: 8; grid-row-end: 9;"></div>
+        </div>
+
+        <div class="resetbtn" onclick="resetGame()" > reset </div>
+
+        <div><span id="second">00</span>:<span id="millisecond">000</span></div>
+        <div class="scores">
+            <div class="text">Score:</div>
+            <div class="text" id="score">0</div>
+        </div>
+
+
+        <div class="scores">
+            <div class="text">High Score:</div>
+            <div class="text" id="highScore">0</div>
         </div>
 
         
