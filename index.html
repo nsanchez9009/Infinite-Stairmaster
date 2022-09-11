@@ -14,12 +14,18 @@
     <div id="mainContainer">
         <div class="text controls">SPACE to go up</div>
         <div class="text controls">CTRL to spin around</div>
-        
+
+        <div class="text"><span id="second">00</span>:<span id="millisecond">000</span></div>
+
         <div id="grid">
             <img src="./frog.png" alt="Mr. Frog" id="player">
             <div class="platform" style="grid-column-start: 5; grid-column-end: 6; grid-row-start: 9; grid-row-end: 10;"></div>
             <div class="platform" style="grid-column-start: 6; grid-column-end: 7; grid-row-start: 8; grid-row-end: 9;"></div>
         </div>
+
+        <div class="resetbtn text" onclick="resetGame()" > Reset </div>
+
+        
 
         <div class="scores">
             <div class="text">Score:</div>

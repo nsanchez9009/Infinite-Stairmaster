@@ -9,7 +9,7 @@ body {
 }
 
 .text {
-    font-size: 30px;
+    font-size: 20px;
     color: white;
     font-family: 'DotGothic16', sans-serif;
     letter-spacing: 2px;
@@ -85,4 +85,19 @@ body {
 
 #highscoreContainer {
     display: flex;
+}
+
+.resetbtn{
+    background-color: rgb(22, 22, 22);
+    color: white;
+    border: 3px solid rgb(0, 0, 0);
+    padding: 5px 10px;
+    border-radius: 50px;
+    
+}
+
+.resetbtn:hover{
+    cursor: pointer;
+    background: white;
+    color: black;
 }
