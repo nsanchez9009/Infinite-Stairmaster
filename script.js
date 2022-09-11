@@ -303,7 +303,7 @@ function resetGame(){
     });
     
     startGame();
-    
+
     l1.printList();
 
     const div = document.createElement("div");
@@ -334,5 +334,7 @@ function resetGame(){
     flag = 0;
     score = 0;
     facing = 1;
+
+    player.classList.remove("flipped");
 
 }
