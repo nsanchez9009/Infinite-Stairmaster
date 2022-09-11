@@ -1,8 +1,15 @@
 const grid = document.querySelector("#grid");
 
+let l1;
+let prev = 1;
+let flag = 0;
+
 window.onload = function() {
     let rowStart = 7;
     let columnStart = 6;
+
+    l1 = new LinkedList();
+    l1.add(1);
     
     for (let i = 7 ; i > 0 ; i--) {
 
@@ -13,12 +20,14 @@ window.onload = function() {
 
         let rand = Math.floor(Math.random() * 2) == 0
 
-        if((rand == 0 && columnStart < 9 ) || columnStart == 1) {
+        if((rand === 0 && columnStart < 9 ) || columnStart === 1) {
             columnStart++;
+            l1.add(1);
         }
 
         else {
             columnStart--;
+            l1.add(0);
         }
 
         div.style.gridColumnStart = columnStart;
@@ -27,7 +36,6 @@ window.onload = function() {
         div.style.gridRowEnd = (rowStart + 1);
 
         rowStart--;
-        
     }
 };
 
@@ -39,7 +47,7 @@ let facing = 1;
 window.addEventListener("keydown", (e) => {
     const styles = window.getComputedStyle(player);
 
-    if (e.code === "Space") {
+    if (e.code === "Space" && flag === 0) {
         if (facing) {
             moveRight(player, styles);
         }
@@ -48,13 +56,16 @@ window.addEventListener("keydown", (e) => {
         }
     }
 
-    else if (e.code === "ControlLeft") {
+    else if (e.code === "ControlLeft" && flag === 0) {
         rotate(player, styles);
     }
 
-    
+    if(facing != l1.head.element) {
+        alert("fail");
+        flag = 1;
+    }
 
-    //check if grid cell is empty
+    l1.remove();
 });
 
 function moveRight(player, styles) {
@@ -108,7 +119,6 @@ function moveUp() {
     platforms.forEach(div => {
         let rowStart = div.style.gridRowStart;
         rowStart = Number(rowStart);
-        console.log(rowStart)
         rowStart += 1;
 
         let rowEnd = div.style.gridRowEnd;
@@ -125,6 +135,52 @@ function moveUp() {
     });
 }
 
-function isEmpty(start, end) {
+class Node {
+    // constructor
+    constructor(element)
+    {
+        this.element = element;
+        this.next = null
+    }
+}
+
+class LinkedList {
+    constructor()
+    {
+        this.head = null;
+        this.size = 0;
+    }
+
+    add(element){
+        let node = new Node(element);
+
+        let current;
+ 
+        if (this.head == null)
+            this.head = node;
+        else {
+            current = this.head;
+            while (current.next) {
+                current = current.next;
+            }
+            current.next = node;
+        }
+        this.size++;
+    }
+
+    printList() {
+        let curr = this.head;
+        let str = "";
+        while (curr) {
+            str += curr.element + " ";
+            curr = curr.next;
+        }
+        console.log(str);
+    }
+
+    remove(){
+        if(!this.head) return;
+        this.head = this.head.next;
+    }
 
 }
