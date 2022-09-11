@@ -29,9 +29,6 @@ body {
     background-color: white;
     height: 10px;
     width: 80px;
-
-    grid-column: 5 / 6;
-    grid-row: 9 / 10;
 }
 
 #player {
@@ -51,26 +48,11 @@ body {
 }
 
 #one {
-    grid-column: 6 / 7;
-    grid-row: 8 / 9;
+    grid-column: 5 / 6;
+    grid-row: 9 / 10;
 }
 
 #two {
-    grid-column: 7 / 8;
-    grid-row: 7 / 8;
-}
-
-#three {
     grid-column: 6 / 7;
-    grid-row: 6 / 7;
-}
-
-#four {
-    grid-column: 5 / 6;
-    grid-row: 5 / 6;
-}
-
-#five {
-    grid-column: 6 / 7;
-    grid-row: 4 / 5;
+    grid-row: 8 / 9;
 }
