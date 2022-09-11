@@ -5,7 +5,7 @@
 }
 
 body {
-    background-color: rgb(59, 59, 59);
+    background-color: rgb(44, 112, 59);
 }
 
 .text {
@@ -21,14 +21,14 @@ body {
     justify-content: center;
     align-items: center;
 
-    gap: 50px;
+    gap: 20px;
 }
 
 #grid {
     display: grid;
     
-    border: 10px solid rgb(0, 0, 0);
-    background-color: rgb(42, 93, 134);
+    border: 10px solid rgb(22, 22, 22);
+    background-image: url(./water.gif);
 
     padding-bottom: 5px;
     margin-top: 20px;
@@ -42,13 +42,22 @@ body {
 }
 
 .platform { 
-    background-color: rgb(126, 248, 147);
-    height: 10px;
-    width: 80px;
+    background-image: url(./lilypad.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    filter: drop-shadow(0px 0px 20px rgb(18, 0, 179));
+
+    height: 60px;
+    width: 60px;
 }
 
 #player {
+    filter: drop-shadow(0px 0px 15px rgb(1, 6, 71));
+
     padding: 10px;
+    z-index: 1;
 
     grid-column-start: 5;
     grid-column-end: 6;
@@ -63,9 +72,13 @@ body {
     transform: rotateY(180deg);
 }
 
-#score {
+.scores {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
+}
+
+#highscoreContainer {
+    display: flex;
 }

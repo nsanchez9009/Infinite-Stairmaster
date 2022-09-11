@@ -9,7 +9,7 @@ window.onload = function() {
     let columnStart = 6;
 
     l1 = new LinkedList();
-    l1.add(1);
+    l1.add(1, 6);
     
     for (let i = 7 ; i > 0 ; i--) {
 
@@ -18,16 +18,16 @@ window.onload = function() {
 
         grid.append(div);
 
-        let rand = Math.floor(Math.random() * 2) == 0
+        let rand = Math.floor(Math.random() * 2);
 
         if((rand === 0 && columnStart < 9 ) || columnStart === 1) {
             columnStart++;
-            l1.add(1);
+            l1.add(1, columnStart);
         }
 
         else {
             columnStart--;
-            l1.add(0);
+            l1.add(0, columnStart);
         }
 
         div.style.gridColumnStart = columnStart;
@@ -40,9 +40,11 @@ window.onload = function() {
 };
 
 const player = document.querySelector("#player");
+const scoreText = document.querySelector("#score");
 
 //0 is left, 1 is right
 let facing = 1;
+let score = 0;
 
 window.addEventListener("keydown", (e) => {
     const styles = window.getComputedStyle(player);
@@ -63,6 +65,11 @@ window.addEventListener("keydown", (e) => {
     if(facing != l1.head.element) {
         alert("fail");
         flag = 1;
+    }
+
+    else {
+        score++;
+        scoreText.textContent = score;
     }
 
     l1.remove();
@@ -128,6 +135,23 @@ function moveUp() {
         if (rowStart >= 10) {
             rowStart = 1;
             rowEnd = 2;
+
+            let colStart = l1.findLastCol();
+            const rand = Math.floor(Math.random() * 2);
+
+            if((rand == 0 && colStart < 9 ) || colStart == 1) {
+                colStart++;
+                l1.add(1, colStart);
+    
+            }
+
+            else {
+                colStart--;
+                l1.add(0, colStart);
+            }
+
+            div.style.gridColumnStart = colStart;
+            div.style.gridColumnEnd = colStart + 1;
         }
 
         div.style.gridRowStart = rowStart;
@@ -137,9 +161,10 @@ function moveUp() {
 
 class Node {
     // constructor
-    constructor(element)
+    constructor(element, column)
     {
         this.element = element;
+        this.column = column;
         this.next = null
     }
 }
@@ -151,13 +176,15 @@ class LinkedList {
         this.size = 0;
     }
 
-    add(element){
-        let node = new Node(element);
+    add(element, column){
+        const node = new Node(element, column);
 
         let current;
  
-        if (this.head == null)
+        if (this.head == null){
             this.head = node;
+        }
+
         else {
             current = this.head;
             while (current.next) {
@@ -165,6 +192,7 @@ class LinkedList {
             }
             current.next = node;
         }
+
         this.size++;
     }
 
@@ -172,7 +200,7 @@ class LinkedList {
         let curr = this.head;
         let str = "";
         while (curr) {
-            str += curr.element + " ";
+            str += curr.element + " col= " + curr.column + " ";
             curr = curr.next;
         }
         console.log(str);
@@ -181,6 +209,16 @@ class LinkedList {
     remove(){
         if(!this.head) return;
         this.head = this.head.next;
+    }
+
+    findLastCol(){
+        let cur = this.head;
+
+        while(cur.next != null){
+            cur = cur.next;
+        }
+
+        return cur.column;
     }
 
 }
