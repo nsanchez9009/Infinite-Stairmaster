@@ -15,6 +15,10 @@ body {
     letter-spacing: 2px;
 }
 
+.controls {
+    font-size: 15px;
+}
+
 #mainContainer {
     display: flex;
     flex-direction: column;
@@ -22,7 +26,7 @@ body {
     align-items: center;
     height: 100vh;
 
-    gap: 20px;
+    gap: 10px;
 }
 
 #grid {
