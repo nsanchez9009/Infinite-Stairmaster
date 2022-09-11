@@ -1,45 +1,54 @@
-const player = document.querySelector("#player");
+const grid = document.querySelector("#grid");
 
-//0 is left, 1 is right
-let facing = 1;
 let l1;
 let prev = 1;
 let flag = 0;
+
 window.onload = function() {
     let rowStart = 7;
     let columnStart = 6;
-    l1 = new LinkedList()
-    l1.add(1);
-    for(let i = 8 ; i > 0 ; i--){
 
-        let div = document.createElement("div");
+    l1 = new LinkedList();
+    l1.add(1, 6);
+    
+    for (let i = 7 ; i > 0 ; i--) {
+
+        const div = document.createElement("div");
         div.classList.add("platform");
-        document.querySelector("#grid").append(div);
-        let rand = Math.floor(Math.random() * 2) == 0
-        if((rand == 0 && columnStart < 9 ) || columnStart == 1){
-            columnStart++;
-            l1.add(1);
-        }
-        else{
-            columnStart--;
-            l1.add(0);
-        }
 
+        grid.append(div);
+
+        let rand = Math.floor(Math.random() * 2);
+
+        if((rand === 0 && columnStart < 9 ) || columnStart === 1) {
+            columnStart++;
+            l1.add(1, columnStart);
+
+        }
+        else {
+            columnStart--;
+            l1.add(0, columnStart);
+        }
 
         div.style.gridColumnStart = columnStart;
         div.style.gridColumnEnd = (columnStart + 1);
         div.style.gridRowStart = rowStart;
         div.style.gridRowEnd = (rowStart + 1);
+
         rowStart--;
-        
     }
-    l1.printList();
-  };
+
+};
+
+const player = document.querySelector("#player");
+
+//0 is left, 1 is right
+let facing = 1;
 
 window.addEventListener("keydown", (e) => {
     const styles = window.getComputedStyle(player);
 
-    if (e.code === "Space" && flag == 0) {
+    if (e.code === "Space" && flag === 0) {
         if (facing) {
             moveRight(player, styles);
         }
@@ -47,15 +56,16 @@ window.addEventListener("keydown", (e) => {
             moveLeft(player, styles);
         }
     }
-    else if (e.code === "ControlLeft" && flag == 0) {
+
+    else if (e.code === "ControlLeft" && flag === 0) {
         rotate(player, styles);
     }
 
-    if(facing != l1.head.element) flag = 1;
-    console.log(l1.head.element + " " + flag);
-    l1.remove();
+    if(facing != l1.head.element) {
+        flag = 1;
+    }
 
-    //check if grid cell is empty
+    l1.remove();
 });
 
 function moveRight(player, styles) {
@@ -71,7 +81,7 @@ function moveRight(player, styles) {
     player.style.gridColumnStart = columnStart;
     player.style.gridColumnEnd = columnEnd;
 
-    moveUp(player, styles);
+    moveUp();
 }
 
 function moveLeft(player, styles) {
@@ -87,7 +97,7 @@ function moveLeft(player, styles) {
     player.style.gridColumnStart = columnStart;
     player.style.gridColumnEnd = columnEnd;
 
-    moveUp(player, styles);
+    moveUp();
 }
 
 function rotate(player, styles) {
@@ -103,38 +113,51 @@ function rotate(player, styles) {
     }
 }
 
-function moveUp(player, styles) {
+function moveUp() {
+    const platforms = document.querySelectorAll(".platform");
 
-    let rowStart = styles.gridRowStart;
-    rowStart = Number(rowStart);
-    rowStart -= 1;
+    platforms.forEach(div => {
+        let rowStart = div.style.gridRowStart;
+        rowStart = Number(rowStart);
+        rowStart += 1;
 
-    let rowEnd = styles.gridRowEnd;
-    rowEnd = Number(rowEnd);
-    rowEnd -= 1;
+        let rowEnd = div.style.gridRowEnd;
+        rowEnd = Number(rowEnd);
+        rowEnd += 1;
 
-    player.style.gridRowStart = rowStart;
-    player.style.gridRowEnd = rowEnd;
+        if (rowStart >= 10) {
+            rowStart = 1;
+            rowEnd = 2;
+
+            let colStart = l1.findLastCol();
+            let rand = Math.floor(Math.random() * 2);
+            if((rand == 0 && colStart < 9 ) || colStart == 1) {
+                colStart++;
+                l1.add(1, colStart);
+    
+            }
+            else {
+                colStart--;
+                l1.add(0, colStart);
+            }
+            div.style.gridColumnStart = colStart;
+            div.style.gridColumnEnd = colStart + 1;
+        }
+
+        div.style.gridRowStart = rowStart;
+        div.style.gridRowEnd = rowEnd;
+    });
 }
-
-function isEmpty(start, end) {
-
-}
-
-
-
-
-//Linked list implementation
 
 class Node {
     // constructor
-    constructor(element)
+    constructor(element, column)
     {
         this.element = element;
+        this.column = column;
         this.next = null
     }
 }
-
 
 class LinkedList {
     constructor()
@@ -143,9 +166,8 @@ class LinkedList {
         this.size = 0;
     }
 
-
-    add(element){
-        let node = new Node(element);
+    add(element, column){
+        let node = new Node(element, column);
 
         let current;
  
@@ -161,31 +183,28 @@ class LinkedList {
         this.size++;
     }
 
-
     printList() {
         let curr = this.head;
         let str = "";
         while (curr) {
-            str += curr.element + " ";
+            str += curr.element + " col= " + curr.column + " ";
             curr = curr.next;
         }
         console.log(str);
     }
 
-
     remove(){
         if(!this.head) return;
         this.head = this.head.next;
     }
- 
-    // functions to be implemented
-    // add(element)
-    // insertAt(element, location)
-    // removeFrom(location)
-    // removeElement(element)
- 
-    // Helper Methods
-    // isEmpty
-    // size_Of_List
-    // PrintList
+
+
+    findLastCol(){
+        let cur = this.head;
+        while(cur.next != null){
+            cur = cur.next;
+        }
+        return cur.column;
+    }
+
 }
