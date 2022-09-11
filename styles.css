@@ -20,6 +20,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 100vh;
 
     gap: 20px;
 }
@@ -31,7 +32,6 @@ body {
     background-image: url(./water.gif);
 
     padding-bottom: 5px;
-    margin-top: 20px;
     height: 700px;
     width: 800px;
 

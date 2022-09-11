@@ -1,10 +1,19 @@
+function sleep(ms){
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 const grid = document.querySelector("#grid");
+const highScore = Number(window.localStorage.getItem("highScore"));
+const highScoreText = document.querySelector("#highScore");
+
+highScoreText.textContent = highScore;
 
 let l1;
 let prev = 1;
 let flag = 0;
 
 window.onload = function() {
+
     let rowStart = 7;
     let columnStart = 6;
 
@@ -45,8 +54,15 @@ const scoreText = document.querySelector("#score");
 //0 is left, 1 is right
 let facing = 1;
 let score = 0;
+let timerFlag = 0;
 
-window.addEventListener("keydown", (e) => {
+async function timer() {
+    await sleep(1500);
+}
+
+window.addEventListener("keydown", function(e) {
+    timerFlag = 0;
+
     const styles = window.getComputedStyle(player);
 
     if (e.code === "Space" && flag === 0) {
@@ -63,8 +79,13 @@ window.addEventListener("keydown", (e) => {
     }
 
     if(facing != l1.head.element) {
-        alert("fail");
-        flag = 1;
+        if (score > highScore) {
+            score = score.toString();
+            window.localStorage.setItem("highScore", score);
+        }
+
+        alert("Wrong Move!");
+        window.location.reload();
     }
 
     else {
@@ -72,8 +93,23 @@ window.addEventListener("keydown", (e) => {
         scoreText.textContent = score;
     }
 
+    //------------Not working properly----------------
+    timerFlag = 1;
+
+    for (let i = 0; i < 1; i++) {
+        if (timerFlag === 1) {
+            timer();
+        }
+        else {
+            break;
+        }
+        console.log("Out of time");
+    }
+    //--------------------------------------------------
+
     l1.remove();
 });
+
 
 function moveRight(player, styles) {
     
