@@ -192,6 +192,7 @@ function rotate(player, styles) {
 }
 
 function moveUp() {
+    if(flag == 1) return;
     const platforms = document.querySelectorAll(".platform");
 
     platforms.forEach(div => {
